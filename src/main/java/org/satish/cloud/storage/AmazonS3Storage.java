@@ -99,13 +99,18 @@ public class AmazonS3Storage implements CloudStorage {
 
     @Override
     public void createObject(String bucketName, String key, String content) throws CloudStorageException {
+        File temp = null;
         try {
-            File temp = creatTempFile(content);
+            temp = creatTempFile(content);
             amazonS3.putObject(new PutObjectRequest(bucketName, key, temp));
             logger.info("Object {} successfully uploaded to S3 bucket {}", key, bucketName);
         } catch (Exception e) {
             logger.error("Exception while creating the object in S3 ", e);
             throw new CloudStorageException(e);
+        }finally{
+            if(temp != null && temp.exists()){
+                temp.delete();
+            }
         }
     }
 

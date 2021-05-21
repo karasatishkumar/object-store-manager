@@ -2,7 +2,7 @@
 This project created for giving a unified way to access different cloud object stores. Based on the configuration one can toggle between different cloud object stores. 
 
 ## MINIO
-This also contain configuration which can be used for [MINIO]( https://min.io/). MinIO can be configured locally and can be used for development purpose to reduce cost. MinIO provides APIs similar to S3 and S3 Client code can be used to interact MINIO. This also can be used in production with adequate configuration.Please refer to the licencing part for production use. Please also read through the documentation for a production type of setup.
+This also contain configuration which can be used for [MINIO]( https://min.io/). MinIO can be configured locally and can be used for development purpose to reduce cost. MINIO provides APIs similar to S3 and S3 Client code can be used to interact MINIO. This also can be used in production with adequate configuration.Please refer to the licencing part for production use. Please also read through the documentation for a production type of setup.
 
 ## MINIO Setup
 [MINIO setup document](https://docs.min.io/docs/minio-quickstart-guide.html) can be followed for setting it up in various environment. But when I am taking here about development purpose, I use the docker way of running it in my local. Please note it's volatile, when you run like this. Stopping the container will erase out all the data.
