@@ -26,7 +26,8 @@ import javax.annotation.PostConstruct;
  * command
  * <pre>
  *     <code>
- *         docker run -p 9001:9000 minio/minio server /data
+ *         docker run -p 9001:9000 --name minio minio/minio server /data
+ *         docker restart minio -t 180
  *     </code>
  * </pre>
  *

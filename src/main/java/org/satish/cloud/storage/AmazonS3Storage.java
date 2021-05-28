@@ -101,7 +101,7 @@ public class AmazonS3Storage implements CloudStorage {
     public void createObject(String bucketName, String key, String content) throws CloudStorageException {
         File temp = null;
         try {
-            temp = creatTempFile(content);
+            temp = createTempFile(content);
             amazonS3.putObject(new PutObjectRequest(bucketName, key, temp));
             logger.info("Object {} successfully uploaded to S3 bucket {}", key, bucketName);
         } catch (Exception e) {
@@ -163,19 +163,22 @@ public class AmazonS3Storage implements CloudStorage {
         }
     }
 
-    private File creatTempFile(String content) throws IOException {
+    private File createTempFile(String content) throws IOException {
         File temp = null;
 
         // Create temp file.
-        temp = File.createTempFile("payload", ".xml");
+        temp = File.createTempFile("payload" + System.currentTimeMillis(), ".xml");
 
         // Delete temp file when program exits.
         temp.deleteOnExit();
 
         // Write to temp file
         BufferedWriter out = new BufferedWriter(new FileWriter(temp));
-        out.write(content);
-        out.close();
+        try {
+            out.write(content);
+        }finally {
+            out.close();
+        }
 
         return temp;
     }
@@ -183,9 +186,11 @@ public class AmazonS3Storage implements CloudStorage {
     private String getContent(S3Object s3Object) throws IOException {
         S3ObjectInputStream s3ObjectInputStream = s3Object.getObjectContent();
         byte[] content = null;
-
-        content = IOUtils.toByteArray(s3ObjectInputStream);
-        s3Object.close();
+        try {
+            content = IOUtils.toByteArray(s3ObjectInputStream);
+        }finally {
+            s3Object.close();
+        }
 
         return new String(content);
     }
